@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
+import { connectWallet, getCurrentWalletConnected, mintNFT } from "./utils/interact.js";
 import './style.css'
-import {
-  connectWallet,
-  getCurrentWalletConnected //import here
-} from "./utils/interact.js";
+
 
 const Minter = (props) => {
 
@@ -28,9 +26,10 @@ const Minter = (props) => {
     setWallet(walletResponse.address);
   };
 
-  const onMintPressed = async () => { //TODO: implement
-    
-  };
+  const onMintPressed = async () => {
+    const { status } = await mintNFT(url, name, description);
+    setStatus(status);
+};
 
   function addWalletListener() {
     if (window.ethereum) {
@@ -59,7 +58,7 @@ const Minter = (props) => {
 
   return (
     <div className="Minter">
-      <h1 id="title">NFT Minter!!!</h1>
+      <h1 id="title">Anonymous NFT Minter</h1>
 
       <p id="option">
         Add your options and press the"Mint."
@@ -68,7 +67,7 @@ const Minter = (props) => {
       <h2>Name: </h2>
         <input
           type="text"
-          placeholder="Your NFT's name: My Baran NFT..."
+          placeholder="Your NFT's name: Poppy NFT..."
           onChange={(event) => setName(event.target.value)}
         />
         <h2>Description: </h2>
